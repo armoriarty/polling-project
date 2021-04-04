@@ -7,38 +7,31 @@ const vm = {
     return {
       page: 'status',
       pollResults: [],
-      voteSubmission: [
-        'Robin',
-        'Audrey',
-        'Katie',
-        'Steve',
-        'Irving',
-        'Emma',
-        'Owen',
-        'Adam'
-      ],
+      ballot: [],
+      candidate: ''
     };
   },
   methods: {
-    addItemToList() {
-      if (isNotBlank(this.candidateItem)) {
-        this.todoList.push(this.candidateItem);
-        this.candidateItem = '';
+    addCandidateToBallot() {
+      if (this.isNotBlank(this.candidate)) {
+        this.ballot.unshift(this.candidate);
+        this.candidate = '';
       }
     },
     move(aSourceIndex, aDestinationIndex) {
-      const sourceValue = this.voteSubmission[aSourceIndex];
-      this.voteSubmission[aSourceIndex] = this.voteSubmission[aDestinationIndex];
-      this.voteSubmission[aDestinationIndex] = sourceValue;
+      const sourceValue = this.ballot[aSourceIndex];
+      this.ballot[aSourceIndex] = this.ballot[aDestinationIndex];
+      this.ballot[aDestinationIndex] = sourceValue;
     },
     updatePoll(newPoll){
       this.pollResults = newPoll;
+      this.ballot = this.pollResults;
     },
     isNotBlank(aString) {
       return aString.length != 0 && aString.trim();
     },
     submitBallot(){
-      socket.emit('submitBallot', this.voteSubmission);
+      socket.emit('submitBallot', this.ballot);
       this.page = 'status';
     },
   },

@@ -23,14 +23,15 @@
           <div v-else>
             <h1>Ballot</h1>
             <ol>
-              <li v-for="(eachCandidate, eachIndex) in voteSubmission">
+              <li v-for="(eachCandidate, eachIndex) in ballot">
                 <span v-if="eachIndex > 0" v-on:click="move(eachIndex, eachIndex - 1)">↑</span>
                 <span v-else>&nbsp;&nbsp;</span>
-                <span v-if="eachIndex < voteSubmission.length - 1" v-on:click="move(eachIndex, eachIndex + 1)">↓</span>
+                <span v-if="eachIndex < ballot.length - 1" v-on:click="move(eachIndex, eachIndex + 1)">↓</span>
                 <span v-else>&nbsp;</span>
                 {{ eachCandidate }}
               </li>
             </ol>
+            <input v-model="candidate" v-on:keyup.enter="addCandidateToBallot" type="text"><button v-on:click="addCandidateToBallot">Add</button>
             <button v-on:click="submitBallot">Submit</button>
           </div>
         </div>
