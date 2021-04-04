@@ -6,7 +6,7 @@ const socketio = require("socket.io");
 const io = socketio(server);
 app.use(express.static("pub"));
 
-const pollResult = [
+let pollResult = [
   'Audrey',
   'Claire',
   'Owen',
@@ -17,21 +17,26 @@ const pollResult = [
   'Emma'
 ];
 
+function calculatePoll(aUserId, aBallot) {
+    pollResult = aBallot;
+}
+
 io.on("connection", function(socket) {
-	console.log("Somebody connected.");
-  socket.emit('updateResults', pollResult);
+    console.log("Somebody connected.");
+    socket.emit('updateResults', pollResult);
 
-	socket.on("disconnect", function() {
-		console.log("Somebody disconnected.");
-	});
+    socket.on("disconnect", function() {
+        console.log("Somebody disconnected.");
+    });
 
-	socket.on("saySomething", function(dataFromClient) {
-		console.log(dataFromClient);
-		var s = new Date();
-		socket.emit("sayBack", "From server, time="+s+": " + dataFromClient);
-	});
+    socket.on("submitBallot", function(aBallot) {
+        console.log(`User: ${socket.id} submitted Ballot:`)
+        console.log(aBallot);
+        calculatePoll(socket.id, aBallot);
+        io.emit('updateResults', pollResult);
+    });
 });
 
 server.listen(8080, function() {
-	console.log("Server with socket.io is ready.");
+    console.log("Server with socket.io is ready.");
 });

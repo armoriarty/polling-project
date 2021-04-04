@@ -8,17 +8,31 @@
     </head>
     <body>
         <div id="main" v-cloak>
-          <h1>Poll Results</h1>
-          <ol>
-            <li v-for="(eachCandidate, eachIndex) in pollResults">
-              {{ eachCandidate }}
-            </li>
-          </ol>
-          <ol>
-            <li v-for="(eachCandidate, eachIndex) in voteSubmission">
-              {{ eachCandidate }}
-            </li>
-          </ol>
+          <div>
+            <button v-bind:disabled="page === 'status'" v-on:click="page = 'status'">Status</button>
+            <button v-bind:disabled="page === 'ballot'" v-on:click="page = 'ballot'">Vote</button>
+          </div>  
+          <div v-if="page === 'status'">
+            <h1>Poll Results</h1>
+            <ol>
+              <li v-for="(eachCandidate, eachIndex) in pollResults">
+                {{ eachCandidate }}
+              </li>
+            </ol>
+          </div>
+          <div v-else>
+            <h1>Ballot</h1>
+            <ol>
+              <li v-for="(eachCandidate, eachIndex) in voteSubmission">
+                <span v-if="eachIndex > 0" v-on:click="move(eachIndex, eachIndex - 1)">↑</span>
+                <span v-else>&nbsp;&nbsp;</span>
+                <span v-if="eachIndex < voteSubmission.length - 1" v-on:click="move(eachIndex, eachIndex + 1)">↓</span>
+                <span v-else>&nbsp;</span>
+                {{ eachCandidate }}
+              </li>
+            </ol>
+            <button v-on:click="submitBallot">Submit</button>
+          </div>
         </div>
     </body>
 
