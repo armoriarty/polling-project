@@ -5,24 +5,49 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>AJAX practice</title>
         <link rel="stylesheet" href="css/style.css">
+
+         <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     </head>
     <body>
-        <div id="main" v-cloak>
-          <div>
-            <button v-bind:disabled="page === 'status'" v-on:click="page = 'status'">Status</button>
-            <button v-bind:disabled="page === 'ballot'" v-on:click="page = 'ballot'">Vote</button>
-          </div>  
-          <div v-if="page === 'status'">
+        <div id="main" class="container" v-cloak>
+          <!-- <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <button class="btn btn-primary" v-bind:disabled="page === 'status'" v-on:click="page = 'status'">Status</button>
+            <button class="btn btn-primary" v-bind:disabled="page === 'ballot'" v-on:click="page = 'ballot'">Vote</button>
+          </div> -->
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <p class="nav-link" v-bind:class="{active: page === 'status'}" v-on:click="page = 'status'">Results</p>
+            </li>
+            <li class="nav-item">
+                <p class="nav-link" v-bind:class="{active: page === 'ballot'}" v-on:click="page = 'ballot'">My Ballot</p>
+            </li>
+          </ul>
+          <div v-if="page === 'status'" class="row">
             <h1>Poll Results</h1>
-            <ol>
+            <div v-for="(eachCandidate, eachIndex) in pollResults" class="row">
+                <p>{{ eachCandidate}}</p>
+            </div>
+            <!-- <ol>class="alert alert-success" 
               <li v-for="(eachCandidate, eachIndex) in pollResults">
                 {{ eachCandidate }}
               </li>
-            </ol>
+            </ol> -->
           </div>
-          <div v-else>
+          <div v-else class="row">
             <h1>Ballot</h1>
-            <ol>
+            <div id="list">
+              <div v-for="(eachCandidate, eachIndex) in ballot" class="row draggable" v-on:mousedown='mouseDownHandler'>
+                <p>
+                  <!-- <span v-if="eachIndex > 0" v-on:click="move(eachIndex, eachIndex - 1)">↑</span>
+                    <span v-else>&nbsp;&nbsp;</span>
+                    <span v-if="eachIndex < ballot.length - 1" v-on:click="move(eachIndex, eachIndex + 1)">↓</span>
+                    <span v-else>&nbsp;</span> -->
+                    {{ eachCandidate }}
+                    </p>
+                  </div>
+              </div>
+            <!-- <ol>
               <li v-for="(eachCandidate, eachIndex) in ballot">
                 <span v-if="eachIndex > 0" v-on:click="move(eachIndex, eachIndex - 1)">↑</span>
                 <span v-else>&nbsp;&nbsp;</span>
@@ -30,13 +55,20 @@
                 <span v-else>&nbsp;</span>
                 {{ eachCandidate }}
               </li>
-            </ol>
-            <input v-model="candidate" v-on:keyup.enter="addCandidateToBallot" type="text"><button v-on:click="addCandidateToBallot">Add</button>
-            <button v-on:click="submitBallot">Submit</button>
+            </ol> -->
+            <!-- <input v-model="candidate" v-on:keyup.enter="addCandidateToBallot" type="text"><button v-on:click="addCandidateToBallot">Add</button>
+            <button v-on:click="submitBallot">Submit</button> -->
+            <div class="mb-3 d-grid gap-2">
+                <textarea v-model="candidate" v-on:keyup.enter="addCandidateToBallot" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <button class="btn btn-outline-success" v-on:click="addCandidateToBallot">Add</button>
+                <button class="btn btn-success" v-on:click="submitBallot">Submit</button>
+            </div>
           </div>
         </div>
     </body>
 
+     <!-- Bootstrap Bundle with Popper -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
     <script src="js/vue.global.js"></script>
     <script src="/socket.io/socket.io.js" type="text/javascript"></script>
     <script src="js/client.js"></script>

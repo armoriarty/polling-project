@@ -2,7 +2,21 @@
     display: none;
 }
 
-body {
+.draggable {
+  cursor: move;
+  user-select: none;
+  background-color: #edf2f7;
+  border: 2px solid black;
+  margin-bottom: 1rem;
+}
+
+.placeholder {
+  background-color: #edf2f7;
+  border: 2px dashed #cbd5e0;
+  margin-bottom: 1rem;
+}
+
+/* body {
   background-color: #fcb47e;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 150%;
@@ -19,4 +33,4 @@ input, button {
   margin-right: auto;
   border: 1px dashed black;
   border-radius: 7px;
-}
+} */
