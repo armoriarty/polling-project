@@ -11,22 +11,35 @@
     </head>
     <body>
         <div id="main" class="container" v-cloak>
-          <ul class="nav nav-tabs">
+          <ul class="nav nav-tabs" v-if="page != 'Polling Station'">
             <li class="nav-item">
+                <p class="nav-link" v-bind:class="{active: page === 'polling station'}" v-on:click="page = 'polling station'">Polling Station</p>
+            </li>
+            <li class="nav-item" v-if="currentPoll != null">
                 <p class="nav-link" v-bind:class="{active: page === 'status'}" v-on:click="page = 'status'">Results</p>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="currentPoll != null">
                 <p class="nav-link" v-bind:class="{active: page === 'ballot'}" v-on:click="page = 'ballot'">My Ballot</p>
             </li>
           </ul>
+          <div v-if="page === 'polling station'">
+            <h1>Active Polls</h1>
+            <div v-for="eachPoll in polls">
+                <p type="button" v-on:click="getPoll(eachPoll)">{{ eachPoll }}</p>
+            </div>
+            <div class="mb-3 d-grid gap-2">
+              <input type="text" v-model="newPoll" v-on:keyup.enter="addPoll" class="form-control">
+              <button class="btn btn-outline-success" v-on:click="addPoll">Create Poll</button>
+            </div>
+          </div>
           <div v-if="page === 'status'" class="row">
-            <h1>Poll Results</h1>
+            <h1>{{ currentPoll }} Results</h1>
             <div v-for="(eachCandidate, eachIndex) in pollResults" class="row">
                 <p>{{ eachCandidate}}</p>
             </div>
           </div>
-          <div v-else class="row">
-            <h1>Ballot</h1>
+          <div v-if="page === 'ballot'" class="row">
+            <h1>{{ currentPoll }} Ballot</h1>
             <div id="list">
               <div v-for="(eachCandidate, eachIndex) in ballot" class="row">
                 <p>
@@ -39,7 +52,7 @@
                   </div>
               </div>
             <div class="mb-3 d-grid gap-2">
-                <textarea v-model="candidate" v-on:keyup.ctrl.enter="addCandidateToBallot" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea v-model="newCandidate" v-on:keyup.ctrl.enter="addCandidateToBallot" class="form-control" rows="3"></textarea>
                 <button class="btn btn-outline-success" v-on:click="addCandidateToBallot">Add</button>
                 <button class="btn btn-success" v-on:click="submitBallot">Submit</button>
             </div>
