@@ -89,7 +89,6 @@ io.on("connection", function(socket) {
         if (activePolls.has(aPollName)){
             const poll = activePolls.get(aPollName);
             poll.calculatePoll(socket.id, aBallot);
-            console.log(poll.pollResults);
             io.to(aPollName).emit('providePoll', {
                 name: aPollName, 
                 results: poll.pollResults
