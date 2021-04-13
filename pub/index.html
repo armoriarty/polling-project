@@ -25,7 +25,7 @@
           <div v-if="page === 'polling station'">
             <h1>Active Polls</h1>
             <div v-for="eachPoll in polls">
-                <p type="button" v-on:click="getPoll(eachPoll)">{{ eachPoll }}</p>
+                <h3 type="button" v-on:click="getPoll(eachPoll)">{{ eachPoll }}</h3>
             </div>
             <div class="mb-3 d-grid gap-2">
               <input type="text" v-model="newPoll" v-on:keyup.enter="addPoll" class="form-control">
@@ -34,9 +34,11 @@
           </div>
           <div v-if="page === 'status'" class="row">
             <h1>{{ currentPoll }} Results</h1>
-            <div v-for="(eachCandidate, eachIndex) in pollResults" class="row">
+            <ul class="row">
+              <li v-for="(eachCandidate, eachIndex) in pollResults">
                 <p>{{ eachCandidate}}</p>
-            </div>
+              </li>
+            </ul>
           </div>
           <div v-if="page === 'ballot'" class="row">
             <h1>{{ currentPoll }} Ballot</h1>
