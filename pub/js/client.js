@@ -10,7 +10,6 @@ const vm = {
         newPoll: '',
         currentPoll: null,
         pollResults: [],
-        candidates: [],
         ballot: [],
         newCandidate: '',
         };

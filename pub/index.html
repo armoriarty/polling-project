@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AJAX practice</title>
+        <title>Polling Station</title>
         <link rel="stylesheet" href="css/style.css">
 
          <!-- Bootstrap CSS -->
@@ -46,13 +46,13 @@
               <div v-for="(eachCandidate, eachIndex) in ballot" class="row">
                 <p>
                   <span v-if="eachIndex > 0" v-on:click="move(eachIndex, eachIndex - 1)">↑</span>
-                    <span v-else>&nbsp;&nbsp;</span>
-                    <span v-if="eachIndex < ballot.length - 1" v-on:click="move(eachIndex, eachIndex + 1)">↓</span>
-                    <span v-else>&nbsp;</span>
-                    {{ eachCandidate }}
-                    </p>
-                  </div>
+                  <span v-else>&nbsp;&nbsp;</span>
+                  <span v-if="eachIndex < ballot.length - 1" v-on:click="move(eachIndex, eachIndex + 1)">↓</span>
+                  <span v-else>&nbsp;</span>
+                  {{ eachCandidate }}
+                </p>
               </div>
+            </div>
             <div class="mb-3 d-grid gap-2">
                 <textarea v-model="newCandidate" v-on:keyup.ctrl.enter="addCandidateToBallot" class="form-control" rows="3"></textarea>
                 <button class="btn btn-outline-success" v-on:click="addCandidateToBallot">Add</button>
